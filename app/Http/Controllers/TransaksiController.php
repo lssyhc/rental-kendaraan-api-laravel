@@ -13,10 +13,17 @@ class TransaksiController extends Controller
     public function index()
     {
         $data = Transaksi::all();
+        $totalPendapatan = 0;
+
+        for($i = 0; $i < count($data); $i++) {
+            $totalPendapatan += $data[$i]->tarif;
+        }
 
         return response()->json([
             'message' => 'Data Transaksi Sukses Dimuat',
-            'data' => $data
+            'data' => $data,
+            'jumlahTransaksi' => count($data),
+            'totalPendapatan' => $totalPendapatan
         ], 200);
     }
 
@@ -38,23 +45,45 @@ class TransaksiController extends Controller
             $data->tarif = $kendaraan->tarif;
         }
         
-        $data->created_at = date('Y-m-d H:i:s');
+        $data->kembalikan = false;
+        $data->tgl_sewa = date('Y-m-d H:i:s');
         $data->save();
 
-        // return $data;
         return response()->json([
             'message' => 'Data Transaksi Berhasil Ditambahkan',
             'data' => $data
         ], 201);
     }
 
-    public function show($id_transaksi)
+    public function show(Request $request, $id_transaksi)
     {
         $data = Transaksi::where('id_transaksi', $id_transaksi)->first();
+
+        if($data->id_customer !== $request->user()->id_user) {
+            return response()->json(['message' => 'Anda tidak Berhak Atas Transaksi Ini'], 403);
+        }
+        
         if($data) {
-            return $data;
+            return response()->json(['data' => $data], 200);
         }else {
             return ['message' => 'Data Transaksi tidak Ditemukan'];
         }
+    }
+
+    public function update(Request $request, $id_transaksi) {
+        $data = Transaksi::where('id_transaksi', $id_transaksi)->first();
+
+        if($request->user()->id_user !== $data->id_customer) {
+            return response()->json(['message' => 'Anda tidak Berhak Atas Transaksi Ini'], 403);
+        }
+
+        $data->kembalikan = true;
+        $data->tgl_pengembalian = date('Y-m-d H:i:s');
+        $data->save();
+
+        return response()->json([
+            'message' => 'Berhasil Melakukan Pengembalian Kendaraan Rental',
+            'data' => $data
+        ], 200);
     }
 }

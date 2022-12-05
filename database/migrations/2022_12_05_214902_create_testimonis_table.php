@@ -13,17 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transaksis', function (Blueprint $table) {
+        Schema::create('testimonis', function (Blueprint $table) {
             $table->id();
-            $table->string('id_transaksi');
+            $table->string('id_testimoni');
             $table->string('id_customer');
             $table->string('id_kendaraan');
-            $table->string('nomor_kendaraan');
             $table->string('merk');
             $table->integer('tarif');
-            $table->boolean('kembalikan');
-            $table->date('tgl_sewa');
-            $table->date('tgl_pengembalian')->nullable();
+            $table->string('konten');
+            $table->integer('bintang');
+            $table->date('created_at');
         });
     }
 
@@ -34,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaksis');
+        Schema::dropIfExists('testimonis');
     }
 };
