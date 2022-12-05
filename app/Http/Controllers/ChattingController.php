@@ -9,6 +9,16 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 class ChattingController extends Controller
 {
+    public function index()
+    {
+        $data = Chatting::all();
+
+        return response()->json([
+            'message' => 'Data Chat Sukses Dimuat',
+            'data' => $data
+        ], 200);
+    }
+    
     public function store(Request $request)
     {
         $data = new Chatting();
@@ -31,7 +41,7 @@ class ChattingController extends Controller
         if($data) {
             $data->id_admin = $request->user()->id_user;
             $data->balasan = $request->balasan;
-            $data->update_at = date('Y-m-d H:i:s');
+            $data->tgl_dibalas = date('Y-m-d H:i:s');
             $data->save();
 
             return $data;

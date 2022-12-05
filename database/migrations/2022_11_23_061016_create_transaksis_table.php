@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('nomor_kendaraan');
             $table->string('merk');
             $table->integer('tarif');
-            $table->timestamp('created_at');
+            $table->date('created_at');
         });
     }
 

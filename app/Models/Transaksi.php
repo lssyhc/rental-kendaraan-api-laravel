@@ -9,7 +9,7 @@ class Transaksi extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nomor_kendaraan', 'merk', 'tarif'];
+    protected $fillable = ['id_kendaraan'];
 
     public $timestamps = false;
 

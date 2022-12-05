@@ -83,7 +83,11 @@ class UserController extends Controller
             $data->member = true;
             $data->save();
 
-            return $data;
+            $response = [
+                'message' => 'Anda Telah Menjadi Member',
+                'dataUser' => $data
+            ];
+            return response($response, 200);
         }else {
             return ['message' => 'Data User tidak Ditemukan'];
         }

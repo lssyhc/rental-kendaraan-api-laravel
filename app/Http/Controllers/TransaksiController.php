@@ -30,7 +30,14 @@ class TransaksiController extends Controller
         $data->id_kendaraan = $request->id_kendaraan;
         $data->nomor_kendaraan = $kendaraan->nomor_polisi;
         $data->merk = $kendaraan->merk;
-        $data->tarif = $kendaraan->tarif;
+        
+        // check member or not
+        if($request->user()->member === 1) {
+            $data->tarif = $kendaraan->tarif - ($kendaraan->tarif * 10/100);
+        }else {
+            $data->tarif = $kendaraan->tarif;
+        }
+        
         $data->created_at = date('Y-m-d H:i:s');
         $data->save();
 

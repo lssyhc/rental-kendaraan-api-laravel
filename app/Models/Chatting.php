@@ -9,7 +9,7 @@ class Chatting extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id_customer', 'konten', 'id_admin', 'balasan'];
+    protected $fillable = ['konten', 'balasan'];
 
     protected $hidden = ['id'];
 

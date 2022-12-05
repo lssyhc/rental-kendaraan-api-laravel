@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('konten');
             $table->string('id_admin')->nullable();
             $table->string('balasan')->nullable();
-            $table->timestamp('created_at');
-            $table->timestamp('update_at')->nullable();
+            $table->date('created_at');
+            $table->date('tgl_dibalas')->nullable();
         });
     }
 
